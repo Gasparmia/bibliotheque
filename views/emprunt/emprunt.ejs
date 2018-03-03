@@ -21,6 +21,13 @@
     <span>Resultat de l'emprunt :
         <%= locals.result%>
     </span>
-    <% }%>
+    <% } else if(locals.err==='NA') { %>
+        <span>erreur na</span>
+        <% } else if(locals.err ==='UB') { %>
+            <span>erreur ub</span>
+            <% } else if (locals.err){ %>
+                <span>erreur</span>
+                <% } %>
+                    </body>
 
 </html>
