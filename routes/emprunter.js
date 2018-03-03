@@ -17,29 +17,38 @@ router.post('/save', function(req, res, next) {
       'select * FROM EMPRUNT WHERE DOCUMENTISBN = ? AND DateRetour IS NULL',
       [data.DocumentISBN],
       function(err, result) {
-        console.log(result);
         if (err) throw err;
         if (result && result.length > 0) {
           res.render('emprunt/emprunt.ejs', { err: 'NA' });
         } else {
           conn.query(
-            "select * from EMPRUNTEUR WHERE ID= ? AND (`DateFinSanction`>= NOW() OR STATUT = 'bloqué')",
+            'select count(*) AS COUNT FROM EMPRUNT WHERE EmprunteurId = ? AND DateRetour IS NULL',
             [data.EmprunteurId],
             function(err, result) {
-              console.log(result);
               if (err) throw err;
-              if (result && result.length > 0) {
-                res.render('emprunt/emprunt.ejs', { err: 'UB' }); //user blocked
+              if (result && result.length > 0 && result[0].COUNT >= 3) {
+                res.render('emprunt/emprunt.ejs', { err: 'e=3' }); // emprunt déjà à trois
               } else {
-                conn.query('INSERT INTO EMPRUNT SET ?', data, function(
-                  err,
-                  result,
-                ) {
-                  res.render('emprunt/emprunt.ejs', {
-                    err: err,
-                    result: result,
-                  });
-                });
+                conn.query(
+                  "select * from EMPRUNTEUR WHERE ID= ? AND (`DateFinSanction`>= NOW() OR STATUT = 'bloqué')",
+                  [data.EmprunteurId],
+                  function(err, result) {
+                    if (err) throw err;
+                    if (result && result.length > 0) {
+                      res.render('emprunt/emprunt.ejs', { err: 'UB' }); //user blocked
+                    } else {
+                      conn.query('INSERT INTO EMPRUNT SET ?', data, function(
+                        err,
+                        result,
+                      ) {
+                        res.render('emprunt/emprunt.ejs', {
+                          err: err,
+                          result: result,
+                        });
+                      });
+                    }
+                  },
+                );
               }
             },
           );

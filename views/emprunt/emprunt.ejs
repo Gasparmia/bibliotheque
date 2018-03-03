@@ -23,11 +23,13 @@
     </span>
     <% } else if(locals.err==='NA') { %>
         <span>erreur na</span>
-        <% } else if(locals.err ==='UB') { %>
-            <span>erreur ub</span>
-            <% } else if (locals.err){ %>
-                <span>erreur</span>
-                <% } %>
-                    </body>
+        <% } else if(locals.err==='e=3') { %>
+            <span>Désolé ! vous avez déjà enprunté 3 livres </span>
+            <% } else if(locals.err ==='UB') { %>
+                <span>erreur ub</span>
+                <% } else if (locals.err){ %>
+                    <span>erreur</span>
+                    <% } %>
+                        </body>
 
 </html>
