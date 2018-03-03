@@ -1,0 +1,25 @@
+head {
+  margin: 10%;
+}
+
+body {
+  padding: 50px;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  margin: 10%;
+  display: flex;
+  flex: 1;
+  background-color: aliceblue;
+}
+
+a {
+  color: #00b7ff;
+}
+
+html {
+  display: flex;
+  background-image: url(/Users/samiabrancato/Desktop/literature-3033196__480.jpg);
+  background-attachment: fixed;
+  justify-content: space-around;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}

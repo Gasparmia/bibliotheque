@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+
+</head>
+
+<form action="/emprunter/save" Method="POST">
+    <label for='ISBN'>ISBN</label>
+    <input type="number" name="ISBN" id="ISBN" />
+    <label for='ID'>ID EMPRUNTEUR</label>
+    <input type="number" name="ID" id="ID" />
+
+    <button type="submit"> ENREGISTRER </button>
+</form>
+
+<% if(locals.result){ %>
+    <span>Resultat de l'emprunt :
+        <%= locals.result%>
+    </span>
+    <% }%>
+
+</html>

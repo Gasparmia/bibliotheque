@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+
+</head>
+
+<body>
+    <h1>Liste des Emprunteurs </h1>
+
+    <a href="/emprunteur/add">
+        <button> AJOUTER</button>
+    </a>
+
+    <% if(locals.rows && locals.rows.length){ %>
+        <ul>
+            <% for(i =0; i < rows.length; i++){ %>
+                <li>
+                    <%= rows[i].Nom %>
+                        <%= rows[i].Prenom %>
+                            <%= rows[i].Auteur %>
+                </li>
+
+                <% } %>
+        </ul>
+        <% } else { %>
+            <span>Aucun emprunteur disponible</span>
+            <% } %>
+</body>
+
+
+</html>
