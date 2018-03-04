@@ -58,4 +58,22 @@ router.post('/save', function(req, res, next) {
   });
 });
 
+//retour d'emprunt avec le get qui renvoie à la vue retour.ejs
+router.get('/return', function(req, res, next) {
+  res.render('emprunt/retour.ejs');
+});
+
+router.post('/savereturn', function(req, res, next) {
+  req.getConnection(function(error, conn) {
+    conn.query(
+      'UPDATE EMPRUNT set DateRetour= NOW() WHERE NumEmprunt = ? ',
+      [req.body.NumEmprunt],
+      function(err, result) {
+        if (err) throw err;
+        res.render('emprunt/index.ejs', { err: 'NA' });
+      },
+    );
+  });
+});
+
 module.exports = router;
