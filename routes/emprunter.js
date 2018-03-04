@@ -63,14 +63,64 @@ router.get('/return', function(req, res, next) {
   res.render('emprunt/retour.ejs');
 });
 
-router.post('/savereturn', function(req, res, next) {
+function sanction(EmprunteurId, NbSanction, conn) {
+  // Sanction
+  var DateFinSanction = new Date();
+  DateFinSanction.setDate(DateFinSanction.getDate() + NbSanction);
+  var updates = {
+    Statut: 'bloqué',
+    DateDebSanction: new Date(),
+    DateFinSanction: DateFinSanction,
+  };
+  conn.query(
+    'UPDATE EMPRUNTEUR set ? WHERE ID = ?',
+    [updates, EmprunteurId],
+    function(err) {
+      if (err) throw err;
+      console.log('user : ' + EmprunteurId + ' bloqué');
+    },
+  );
+}
+
+router.post('/return', function(req, res, next) {
   req.getConnection(function(error, conn) {
+    conn.query(
+      'SELECT * FROM EMPRUNT WHERE NumEmprunt = ? ',
+      [req.body.NumEmprunt],
+      function(err, result) {
+        if (err) throw err;
+        if (result && result.length) {
+          var NbSanction = Number(req.body.NbSanction);
+          if (NbSanction > 0) {
+            sanction(result[0].EmprunteurId, NbSanction, conn);
+          } else {
+            conn.query('Select * from Parametre', function(err, parametres) {
+              if (err) throw err;
+              var DureeMaxEmprunt = parametres[0].DureeMaxEmprunt;
+              var dateEmprunt = new Date(result[0].DatedEmprunt);
+              var dateEmpruntPlus15 = new Date(result[0].DatedEmprunt);
+              dateEmpruntPlus15.setDate(
+                dateEmprunt.getDate() + DureeMaxEmprunt,
+              );
+              if (Date.now() > dateEmpruntPlus15.getTime()) {
+                sanction(
+                  result[0].EmprunteurId,
+                  parametres[0].DureeMaxSanction,
+                  conn,
+                );
+              }
+            });
+          }
+        }
+      },
+    );
+
     conn.query(
       'UPDATE EMPRUNT set DateRetour= NOW() WHERE NumEmprunt = ? ',
       [req.body.NumEmprunt],
       function(err, result) {
         if (err) throw err;
-        res.render('emprunt/index.ejs', { err: 'NA' });
+        res.render('emprunt/retour.ejs');
       },
     );
   });
