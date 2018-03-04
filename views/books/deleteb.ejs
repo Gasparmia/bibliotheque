@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
 
 <body>
@@ -16,21 +15,17 @@
             N°ISBN
         </label>
         <input type="number" name="ISBN" id="ISBN">
-        <label for='Titre'> TITRE </label>
-        <input type="text" name="Titre" id="Titre">
-        <label for='date'> date </label>
-        <input TYPE="datetime" name="Dateparution">
-        <label for='Auteur'>Auteur</label>
-        <input type="text" name="Auteur" id="Auteur">
-        <label for='Etat'> Etat</label>
-        <input type="text" name="Etat" id="Etat">
 
         <button type="submit"> Supprimer </button>
 
     </form>
 
-
-
+    <% if(locals.deleted === 'err') { %>
+        <span>Le document n'a pas été supprimé ou il n'existe pas </span>
+        <%} else if(locals.deleted){ %>
+            <span>Le document
+                <%= locals.deleted %> a bien été supprimé </span>
+            <% } %>
 </body>
 
 </html>

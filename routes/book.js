@@ -101,7 +101,18 @@ router.get('/delete', function(req, res, next) {
   res.render('books/deleteb.ejs');
 });
 router.post('/delete', function(req, res, next) {
-  res.send('delete');
+  req.getConnection(function(error, conn) {
+    conn.query('delete from Document where ISBN = ?', [req.body.ISBN], function(
+      err,
+      results,
+    ) {
+      if (results.affectedRows > 0) {
+        res.render('books/deleteb.ejs', { deleted: req.body.ISBN });
+      } else {
+        res.render('books/deleteb.ejs', { deleted: 'err' });
+      }
+    });
+  });
 });
 
 module.exports = router;
