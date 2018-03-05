@@ -40,6 +40,13 @@ router.post('/save', function(req, res, next) {
                           err,
                           result,
                         ) {
+                          conn.query(
+                            "UPDATE DOCUMENT SET Etat = 'non disponible' WHERE ISBN = ?",
+                            [req.body.ISBN],
+                            function(err, result) {
+                              if (err) throw err;
+                            },
+                          );
                           res.render('emprunt/emprunt.ejs', {
                             err: err,
                             result: 'emprunt enregistré',
