@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/save', function(req, res, next) {
   res.render('emprunt/emprunt.ejs');
 });
 
@@ -11,45 +11,45 @@ router.post('/save', function(req, res, next) {
     DocumentISBN: req.body.ISBN,
     EmprunteurId: req.body.ID,
   };
-
   req.getConnection(function(error, conn) {
     conn.query(
-      'select * FROM EMPRUNT WHERE DOCUMENTISBN = ? AND DateRetour IS NULL',
+      'select * FROM Document WHERE ISBN = ?',
       [data.DocumentISBN],
       function(err, result) {
         if (err) throw err;
-        if (result && result.length > 0) {
-          res.render('emprunt/emprunt.ejs', { err: 'NA' });
-        } else {
+        if (result[0].Etat == 'disponible') {
           conn.query(
             'select count(*) AS COUNT FROM EMPRUNT WHERE EmprunteurId = ? AND DateRetour IS NULL',
             [data.EmprunteurId],
             function(err, result) {
               if (err) throw err;
-              if (result && result.length > 0 && result[0].COUNT >= 3) {
-                res.render('emprunt/emprunt.ejs', { err: 'e=3' }); // emprunt déjà à trois
-              } else {
-                conn.query(
-                  "select * from EMPRUNTEUR WHERE ID= ? AND (`DateFinSanction`>= NOW() OR STATUT = 'bloqué')",
-                  [data.EmprunteurId],
-                  function(err, result) {
-                    if (err) throw err;
-                    if (result && result.length > 0) {
-                      res.render('emprunt/emprunt.ejs', { err: 'UB' }); //user blocked
-                    } else {
-                      conn.query('INSERT INTO EMPRUNT SET ?', data, function(
-                        err,
-                        result,
-                      ) {
-                        res.render('emprunt/emprunt.ejs', {
-                          err: err,
-                          result: result,
-                        });
-                      });
-                    }
-                  },
+              conn.query('select * FROM PARAMETRE', function(err, parametre) {
+                if (err) throw err;
+                var madate = new Date();
+                madate.setDate(
+                  madate.getDate() - parametre[0].DureeMaxSanction,
                 );
-              }
+                if (result[0].COUNT < parametre[0].NombredEmprunt) {
+                  conn.query(
+                    'select  * from EMPRUNTEUR WHERE ID= ? AND  `DateDebSanction` is null or  `DateDebSanction` <= ?',
+                    [data.EmprunteurId, madate],
+                    function(err, result) {
+                      if (err) throw err;
+                      if (result.length == 1) {
+                        conn.query('INSERT INTO EMPRUNT SET ?', data, function(
+                          err,
+                          result,
+                        ) {
+                          res.render('emprunt/emprunt.ejs', {
+                            err: err,
+                            result: 'emprunt enregistré',
+                          });
+                        });
+                      }
+                    },
+                  );
+                }
+              });
             },
           );
         }
@@ -57,18 +57,16 @@ router.post('/save', function(req, res, next) {
     );
   });
 });
-
 //retour d'emprunt avec le get qui renvoie à la vue retour.ejs
-router.get('/return', function(req, res, next) {
+/*router.get('/return', function(req, res, next) {
   res.render('emprunt/retour.ejs');
 });
 
 function sanction(EmprunteurId, NbSanction, conn) {
   // Sanction
   var DateFinSanction = new Date();
-  DateFinSanction.setDate(DateFinSanction.getDate() + NbSanction);
+  DateFinSanction.setDate(DateFinSanction.getDate() + NbSanction); ///
   var updates = {
-    Statut: 'bloqué',
     DateDebSanction: new Date(),
     DateFinSanction: DateFinSanction,
   };
@@ -125,5 +123,5 @@ router.post('/return', function(req, res, next) {
     );
   });
 });
-
+*/
 module.exports = router;

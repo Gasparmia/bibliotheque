@@ -3,10 +3,7 @@ var router = express.Router();
 
 router.get('/', (req, res) => {
   req.getConnection(function(error, conn) {
-    conn.query('Select * from EMPRUNTEUR where Statut != "bloqué"', function(
-      err,
-      rows,
-    ) {
+    conn.query('Select * from EMPRUNTEUR', function(err, rows) {
       if (err) throw err;
       res.render('emprunteur/index.ejs', { rows: rows });
     });
@@ -21,7 +18,6 @@ router.post('/add', (req, res) => {
   var data = {
     Nom: req.body.Nom,
     Prenom: req.body.Prenom,
-    Statut: 'disponible',
   };
 
   req.getConnection(function(error, conn) {
