@@ -9,7 +9,7 @@ router.post('/save', function(req, res, next) {
   var data = {
     DatedEmprunt: new Date(),
     DocumentISBN: req.body.ISBN,
-    EmprunteurId: req.body.ID,
+    EmprunteurId: req.body.ID
   };
   req.getConnection(function(error, conn) {
     conn.query(
@@ -27,7 +27,7 @@ router.post('/save', function(req, res, next) {
                 if (err) throw err;
                 var madate = new Date();
                 madate.setDate(
-                  madate.getDate() - parametre[0].DureeMaxSanction,
+                  madate.getDate() - parametre[0].DureeMaxSanction
                 );
                 if (result[0].COUNT < parametre[0].NombredEmprunt) {
                   conn.query(
@@ -38,27 +38,35 @@ router.post('/save', function(req, res, next) {
                       if (result.length == 1) {
                         conn.query('INSERT INTO EMPRUNT SET ?', data, function(
                           err,
-                          result,
+                          result
                         ) {
+                          conn.query(
+                            "UPDATE DOCUMENT SET Etat = 'non disponible' WHERE ISBN = ?",
+                            [req.body.ISBN],
+                            function(err, result) {
+                              if (err) throw err;
+                            }
+                          );
                           res.render('emprunt/emprunt.ejs', {
                             err: err,
-                            result: 'emprunt enregistré',
+                            result: 'emprunt enregistré'
                           });
                         });
                       }
-                    },
+                    }
                   );
                 }
               });
-            },
+            }
           );
         }
-      },
+      }
     );
   });
 });
+
 //retour d'emprunt avec le get qui renvoie à la vue retour.ejs
-/*router.get('/return', function(req, res, next) {
+router.get('/return', function(req, res, next) {
   res.render('emprunt/retour.ejs');
 });
 
@@ -68,15 +76,16 @@ function sanction(EmprunteurId, NbSanction, conn) {
   DateFinSanction.setDate(DateFinSanction.getDate() + NbSanction); ///
   var updates = {
     DateDebSanction: new Date(),
-    DateFinSanction: DateFinSanction,
+    DateFinSanction: DateFinSanction
   };
+
   conn.query(
     'UPDATE EMPRUNTEUR set ? WHERE ID = ?',
     [updates, EmprunteurId],
     function(err) {
       if (err) throw err;
       console.log('user : ' + EmprunteurId + ' bloqué');
-    },
+    }
   );
 }
 
@@ -98,19 +107,19 @@ router.post('/return', function(req, res, next) {
               var dateEmprunt = new Date(result[0].DatedEmprunt);
               var dateEmpruntPlus15 = new Date(result[0].DatedEmprunt);
               dateEmpruntPlus15.setDate(
-                dateEmprunt.getDate() + DureeMaxEmprunt,
+                dateEmprunt.getDate() + DureeMaxEmprunt
               );
               if (Date.now() > dateEmpruntPlus15.getTime()) {
                 sanction(
                   result[0].EmprunteurId,
                   parametres[0].DureeMaxSanction,
-                  conn,
+                  conn
                 );
               }
             });
           }
         }
-      },
+      }
     );
 
     conn.query(
@@ -119,9 +128,9 @@ router.post('/return', function(req, res, next) {
       function(err, result) {
         if (err) throw err;
         res.render('emprunt/retour.ejs');
-      },
+      }
     );
   });
 });
-*/
+
 module.exports = router;

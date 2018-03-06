@@ -13,7 +13,7 @@ var params = {
   user: config.database.user,
   password: config.database.password,
   port: config.database.port,
-  database: config.database.db,
+  database: config.database.db
 };
 var app = express();
 
