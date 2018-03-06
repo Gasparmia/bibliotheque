@@ -17,7 +17,7 @@ router.post('/save', function(req, res, next) {
       [data.DocumentISBN],
       function(err, result) {
         if (err) throw err;
-        if (result[0].Etat == 'disponible') {
+        if (result && result.length && result[0].Etat == 'disponible') {
           conn.query(
             'select count(*) AS COUNT FROM EMPRUNT WHERE EmprunteurId = ? AND DateRetour IS NULL',
             [data.EmprunteurId],
@@ -29,7 +29,11 @@ router.post('/save', function(req, res, next) {
                 madate.setDate(
                   madate.getDate() - parametre[0].DureeMaxSanction
                 );
-                if (result[0].COUNT < parametre[0].NombredEmprunt) {
+                if (
+                  result &&
+                  result.length &&
+                  result[0].COUNT < parametre[0].NombredEmprunt
+                ) {
                   conn.query(
                     'select  * from EMPRUNTEUR WHERE ID= ? AND  `DateDebSanction` is null or  `DateDebSanction` <= ?',
                     [data.EmprunteurId, madate],
@@ -47,14 +51,27 @@ router.post('/save', function(req, res, next) {
                               if (err) throw err;
                             }
                           );
+                          console.log(result);
                           res.render('emprunt/emprunt.ejs', {
                             err: err,
-                            result: 'emprunt enregistré'
+                            result:
+                              'Emprunt enregistré sous le numéro : ' +
+                              result.insertId
                           });
+                        });
+                      } else {
+                        res.render('emprunt/emprunt.ejs', {
+                          err: 'Emprunteur sanctionné',
+                          result: null
                         });
                       }
                     }
                   );
+                } else {
+                  res.render('emprunt/emprunt.ejs', {
+                    err: "Nombre trop élevé d'emprunt",
+                    result: null
+                  });
                 }
               });
             }
@@ -118,6 +135,14 @@ router.post('/return', function(req, res, next) {
               }
             });
           }
+
+          conn.query(
+            "UPDATE DOCUMENT SET Etat = 'disponible' WHERE ISBN = ? ",
+            [result[0].DocumentISBN],
+            function(err, result) {
+              if (err) throw err;
+            }
+          );
         }
       }
     );
@@ -126,8 +151,13 @@ router.post('/return', function(req, res, next) {
       'UPDATE EMPRUNT set DateRetour= NOW() WHERE NumEmprunt = ? ',
       [req.body.NumEmprunt],
       function(err, result) {
-        if (err) throw err;
-        res.render('emprunt/retour.ejs');
+        if (err) {
+          res.render('emprunt/retour.ejs', {
+            result: "Une erreur s'est produite"
+          });
+        } else {
+          res.render('emprunt/retour.ejs', { result: 'Retour validé' });
+        }
       }
     );
   });
