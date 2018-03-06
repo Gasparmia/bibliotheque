@@ -7,7 +7,7 @@ router.post('/add', function(req, res, next) {
     Titre: req.body.Titre,
     Auteur: req.body.Auteur,
     DateParution: new Date(),
-    Etat: req.body.Etat,
+    Etat: req.body.Etat
   };
   req.getConnection(function(error, conn) {
     conn.query('INSERT INTO Document SET ?', data, function(err, result) {
@@ -23,7 +23,7 @@ router.post('/update', function(req, res, next) {
     Titre: req.body.Titre,
     Auteur: req.body.Auteur,
     DateParution: new Date(),
-    Etat: req.body.Etat,
+    Etat: req.body.Etat
   };
 
   var dataToUpdate = {};
@@ -49,7 +49,7 @@ router.post('/update', function(req, res, next) {
         if (rows.affectedRows != 0) {
           res.send(rows.changedRows + 'tuples modifies');
         } else res.send('problème de modification');
-      },
+      }
     );
   });
 });
@@ -67,7 +67,7 @@ router.post('/search', function(req, res, next) {
   var data = {
     ISBN: req.body.ISBN,
     Titre: req.body.Titre,
-    Auteur: req.body.Auteur,
+    Auteur: req.body.Auteur
   };
 
   var query = 'Select * from Document ';
@@ -78,7 +78,7 @@ router.post('/search', function(req, res, next) {
   req.getConnection(function(error, conn) {
     conn.query(query, [data.ISBN, data.Titre, data.Auteur], function(
       err,
-      rows,
+      rows
     ) {
       if (err) throw err;
       res.render('books/searchb.ejs', { rows: rows });
@@ -104,7 +104,7 @@ router.post('/delete', function(req, res, next) {
   req.getConnection(function(error, conn) {
     conn.query('delete from Document where ISBN = ?', [req.body.ISBN], function(
       err,
-      results,
+      results
     ) {
       if (results.affectedRows > 0) {
         res.render('books/deleteb.ejs', { deleted: req.body.ISBN });
