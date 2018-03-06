@@ -8,105 +8,68 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">BIBLIOTHEQUE MUNICIPALE</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <%- include('../nav', {active: 'book'}); %>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/emprunteur/">Emprunteurs
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/emprunter/save">Nouvel Emprunt
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/emprunter/return">Retour
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Ouvrages
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/book/add">Ajouter</a>
-                        <a class="dropdown-item" href="/book/update">Modifier</a>
-                        <a class="dropdown-item" href="/book/delete">Supprimer</a>
-                        <a class="dropdown-item" href="/book/search">Chercher</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+        <section class="content">
+            <form action="/book/search/" Method="POST" class="form-column">
+                <h1>Chercher un ouvrage</h1>
+                <label for='ISBN'>
+                    N°ISBN
+                </label>
+                <input type="number" name="ISBN" id="ISBN">
+                <label for='Titre'> TITRE </label>
+                <input type="text" name="Titre" id="Titre">
+                <label for='Auteur'>Auteur</label>
+                <input type="text" name="Auteur" id="Auteur">
 
-    <section class="content">
-        <form action="/book/search/" Method="POST" class="form-column">
-            <h1>Chercher un ouvrage</h1>
-            <label for='ISBN'>
-                N°ISBN
-            </label>
-            <input type="number" name="ISBN" id="ISBN">
-            <label for='Titre'> TITRE </label>
-            <input type="text" name="Titre" id="Titre">
-            <label for='Auteur'>Auteur</label>
-            <input type="text" name="Auteur" id="Auteur">
+                <button type="submit" class="btn btn-info button">Rechercher</button>
+            </form>
+            <h1>Liste des Livres</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Auteur</th>
+                        <th scope="col">Date de Parution</th>
+                        <th scope="col">Etat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(locals.rows){ %>
+                        <ul>
+                            <% for(i =0; i < rows.length; i++){ %>
+                                <tr>
+                                    <th scope="row">
+                                        <%= rows[i].ISBN %>
+                                    </th>
+                                    <td>
+                                        <%= rows[i].Titre %>
+                                    </td>
+                                    <td>
+                                        <%= rows[i].Auteur %>
+                                    </td>
+                                    <td>
+                                        <%= rows[i].DateParution %>
+                                    </td>
+                                    <td>
+                                        <%= rows[i].Etat %>
+                                    </td>
+                                </tr>
 
-            <button type="submit" class="btn btn-info button">Rechercher</button>
-        </form>
-        <h1>Liste des Livres</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ISBN</th>
-                    <th scope="col">Titre</th>
-                    <th scope="col">Auteur</th>
-                    <th scope="col">Date de Parution</th>
-                    <th scope="col">Etat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if(locals.rows){ %>
-                    <ul>
-                        <% for(i =0; i < rows.length; i++){ %>
-                            <tr>
-                                <th scope="row">
-                                    <%= rows[i].ISBN %>
-                                </th>
-                                <td>
-                                    <%= rows[i].Titre %>
-                                </td>
-                                <td>
-                                    <%= rows[i].Auteur %>
-                                </td>
-                                <td>
-                                    <%= rows[i].DateParution %>
-                                </td>
-                                <td>
-                                    <%= rows[i].Etat %>
-                                </td>
-                            </tr>
+                                <% } %>
+                        </ul>
+                        <% } %>
+                </tbody>
+            </table>
 
-                            <% } %>
-                    </ul>
-                    <% } %>
-            </tbody>
-        </table>
-
-    </section>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+        </section>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>

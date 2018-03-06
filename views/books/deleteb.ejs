@@ -8,69 +8,32 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">BIBLIOTHEQUE MUNICIPALE</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <%- include('../nav', {active: 'book'}); %>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/emprunteur/">Emprunteurs
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/emprunter/save">Nouvel Emprunt
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/emprunter/return">Retour
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Ouvrages
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/book/add">Ajouter</a>
-                        <a class="dropdown-item" href="/book/update">Modifier</a>
-                        <a class="dropdown-item" href="/book/delete">Supprimer</a>
-                        <a class="dropdown-item" href="/book/search">Chercher</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+        <section class="content">
+            <form action="/book/delete/" Method="POST" class="form-column">
+                <h1>Supprimer un ouvrage</h1>
+                <label for='ISBN'>
+                    N°ISBN
+                </label>
+                <input type="number" name="ISBN" id="ISBN">
 
-    <section class="content">
-        <form action="/book/delete/" Method="POST" class="form-column">
-            <h1>Supprimer un ouvrage</h1>
-            <label for='ISBN'>
-                N°ISBN
-            </label>
-            <input type="number" name="ISBN" id="ISBN">
+                <button type="submit" class="btn btn-info button">Supprimer</button>
+            </form>
 
-            <button type="submit" class="btn btn-info button">Supprimer</button>
-        </form>
-
-        <% if(locals.deleted === 'err') { %>
-            <span>Le document n'a pas été supprimé ou il n'existe pas </span>
-            <%} else if(locals.deleted){ %>
-                <span>Le document
-                    <%= locals.deleted %> a bien été supprimé </span>
-                <% } %>
-    </section>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+            <% if(locals.deleted === 'err') { %>
+                <span>Le document n'a pas été supprimé ou il n'existe pas </span>
+                <%} else if(locals.deleted){ %>
+                    <span>Le document
+                        <%= locals.deleted %> a bien été supprimé </span>
+                    <% } %>
+        </section>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
