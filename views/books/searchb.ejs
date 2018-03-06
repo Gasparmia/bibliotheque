@@ -2,15 +2,14 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 </head>
 
 <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">BIBLIOTHEQUE MUNICIPALE</a>
+        <a class="navbar-brand" href="/">BIBLIOTHEQUE MUNICIPALE</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -48,43 +47,44 @@
         </div>
     </nav>
 
-    <form action="/book/search/" Method="POST">
-        <label for='ISBN'>
-            N°ISBN
-        </label>
-        <input type="number" name="ISBN" id="ISBN">
-        <label for='Titre'> TITRE </label>
-        <input type="text" name="Titre" id="Titre">
-        <label for='Auteur'>Auteur</label>
-        <input type="text" name="Auteur" id="Auteur">
+    <section class="content">
+        <form action="/book/search/" Method="POST" class="form-column">
+            <h1>Chercher un ouvrage</h1>
+            <label for='ISBN'>
+                N°ISBN
+            </label>
+            <input type="number" name="ISBN" id="ISBN">
+            <label for='Titre'> TITRE </label>
+            <input type="text" name="Titre" id="Titre">
+            <label for='Auteur'>Auteur</label>
+            <input type="text" name="Auteur" id="Auteur">
 
-        <button type="submit"> Rechercher </button>
+            <button type="submit" class="btn btn-info button">Rechercher</button>
+        </form>
+        <h1>Liste des Livres</h1>
+        <% if(locals.rows){ %>
+            <ul>
+                <% for(i =0; i < rows.length; i++){ %>
+                    <li>
+                        <%= rows[i].ISBN %>
+                            <%= rows[i].Titre %>
+                                <%= rows[i].Auteur %>
+                                    <%= rows[i].DateParution %>
+                                        <%= rows[i].Etat %>
 
-    </form>
-    <h1>Liste des Livres</h1>
-    <% if(locals.rows){ %>
-        <ul>
-            <% for(i =0; i < rows.length; i++){ %>
-                <li>
-                    <%= rows[i].ISBN %>
-                        <%= rows[i].Titre %>
-                            <%= rows[i].Auteur %>
-                                <%= rows[i].DateParution %>
-                                    <%= rows[i].Etat %>
 
+                    </li>
 
-                </li>
-
-                <% } %>
-        </ul>
-        <% } %>
-
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                crossorigin="anonymous"></script>
+                    <% } %>
+            </ul>
+            <% } %>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

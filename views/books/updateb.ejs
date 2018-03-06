@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 </head>
@@ -10,7 +11,7 @@
 
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">BIBLIOTHEQUE MUNICIPALE</a>
+        <a class="navbar-brand" href="/">BIBLIOTHEQUE MUNICIPALE</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -47,25 +48,25 @@
             </ul>
         </div>
     </nav>
+    <section class="content">
+        <form action="/book/update/" Method="POST" class="form-column">
+            <h1>Modifier un ouvrage</h1>
+            <label for='ISBN'>
+                N°ISBN
+            </label>
+            <input type="number" name="ISBN" id="ISBN">
+            <label for='Titre'> TITRE </label>
+            <input type="text" name="Titre" id="Titre">
+            <label for='date'> date </label>
+            <input TYPE="datetime" name="Dateparution">
+            <label for='Auteur'>Auteur</label>
+            <input type="text" name="Auteur" id="Auteur">
+            <label for='Etat'> Etat</label>
+            <input type="text" name="Etat" id="Etat">
 
-    <form action="/book/update/" Method="POST">
-        <label for='ISBN'>
-            N°ISBN
-        </label>
-        <input type="number" name="ISBN" id="ISBN">
-        <label for='Titre'> TITRE </label>
-        <input type="text" name="Titre" id="Titre">
-        <label for='date'> date </label>
-        <input TYPE="datetime" name="Dateparution">
-        <label for='Auteur'>Auteur</label>
-        <input type="text" name="Auteur" id="Auteur">
-        <label for='Etat'> Etat</label>
-        <input type="text" name="Etat" id="Etat">
-
-        <button type="submit"> Modifier </button>
-
-    </form>
-
+            <button type="submit" class="btn btn-info button">Modifier</button>
+        </form>
+    </section>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
