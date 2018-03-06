@@ -18,6 +18,11 @@
                 <input type="number" name="NumEmprunt" id="NumEmprunt" />
 
                 <button type="submit" class="btn btn-info button">VALIDER</button>
+                <% if(locals.result){ %>
+                    <span>
+                        <%= locals.result %>
+                    </span>
+                    <% } %>
             </form>
         </section>
 
