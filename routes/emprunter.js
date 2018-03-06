@@ -9,7 +9,7 @@ router.post('/save', function(req, res, next) {
   var data = {
     DatedEmprunt: new Date(),
     DocumentISBN: req.body.ISBN,
-    EmprunteurId: req.body.ID,
+    EmprunteurId: req.body.ID
   };
   req.getConnection(function(error, conn) {
     conn.query(
@@ -27,7 +27,7 @@ router.post('/save', function(req, res, next) {
                 if (err) throw err;
                 var madate = new Date();
                 madate.setDate(
-                  madate.getDate() - parametre[0].DureeMaxSanction,
+                  madate.getDate() - parametre[0].DureeMaxSanction
                 );
                 if (result[0].COUNT < parametre[0].NombredEmprunt) {
                   conn.query(
@@ -38,32 +38,33 @@ router.post('/save', function(req, res, next) {
                       if (result.length == 1) {
                         conn.query('INSERT INTO EMPRUNT SET ?', data, function(
                           err,
-                          result,
+                          result
                         ) {
                           conn.query(
                             "UPDATE DOCUMENT SET Etat = 'non disponible' WHERE ISBN = ?",
                             [req.body.ISBN],
                             function(err, result) {
                               if (err) throw err;
-                            },
+                            }
                           );
                           res.render('emprunt/emprunt.ejs', {
                             err: err,
-                            result: 'emprunt enregistré',
+                            result: 'emprunt enregistré'
                           });
                         });
                       }
-                    },
+                    }
                   );
                 }
               });
-            },
+            }
           );
         }
-      },
+      }
     );
   });
 });
+
 //retour d'emprunt avec le get qui renvoie à la vue retour.ejs
 /*router.get('/return', function(req, res, next) {
   res.render('emprunt/retour.ejs');
