@@ -7,49 +7,51 @@
   </title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
+<div class='pagecontent'>
 
-<body>
-  <h1>
-    <%= title %>
-  </h1>
-  <p>Welcome to
-    <%= title %>
-  </p>
+  <body>
+
+    <div id="menu">
+      <h1>
+        BIBLIOTHEQUE MUNICIPALE
+      </h1>
+      <p>
+        BIENVENUE DANS VOTRE BIBLIOTHEQUE
+      </p>
+      <a href="emprunteur/">
+        <button class='button'> GESTION DES EMPRUNTEURS</button>
+      </a>
+
+      <a href="book/add">
+        <button class='button'> AJOUTER UN OUVRAGE</button>
+      </a>
+
+      <a href="/book/delete">
+        <button class='button'> SUPPRIMER UN OUVRAGE</button>
+      </a>
+
+      <a href="/book/search ">
+        <button class='button'> CHERCHER UN OUVRAGE</button>
+      </a>
+
+      <a href="/book/update">
+        <button class='button'> METTRE A JOUR UN OUVRAGE</button>
+      </a>
+
+      <a href="/emprunter/save">
+        <button class='button'> EMPRUNTER UN OUVRAGE</button>
+      </a>
+
+      <a href="/emprunter/return">
+        <button class='button'> RENDRE UN OUVRAGE</button>
+      </a>
+
+    </div>
 
 
-  <a href="emprunteur/">
-    <button> GESTION DES EMPRUNTEURS</button>
-  </a>
-
-  <a href="book/add">
-    <button> AJOUTER UN OUVRAGE</button>
-  </a>
-
-  <a href="/book/delete">
-    <button> SUPPRIMER UN OUVRAGE</button>
-  </a>
-
-  <a href="/book/search ">
-    <button> CHERCHER UN OUVRAGE</button>
-  </a>
-
-  <a href="/book/update">
-    <button> METTRE A JOUR UN OUVRAGE</button>
-  </a>
-
-  <a href="/emprunter/save">
-    <button> EMPRUNTER UN OUVRAGE</button>
-  </a>
-
-  <a href="/emprunter/return">
-    <button> RENDRE UN OUVRAGE</button>
-  </a>
 
 
-
-
-
-
-</body>
+  </body>
+</div>
 
 </html>
