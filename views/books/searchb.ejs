@@ -62,22 +62,44 @@
             <button type="submit" class="btn btn-info button">Rechercher</button>
         </form>
         <h1>Liste des Livres</h1>
-        <% if(locals.rows){ %>
-            <ul>
-                <% for(i =0; i < rows.length; i++){ %>
-                    <li>
-                        <%= rows[i].ISBN %>
-                            <%= rows[i].Titre %>
-                                <%= rows[i].Auteur %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Auteur</th>
+                    <th scope="col">Date de Parution</th>
+                    <th scope="col">Etat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(locals.rows){ %>
+                    <ul>
+                        <% for(i =0; i < rows.length; i++){ %>
+                            <tr>
+                                <th scope="row">
+                                    <%= rows[i].ISBN %>
+                                </th>
+                                <td>
+                                    <%= rows[i].Titre %>
+                                </td>
+                                <td>
+                                    <%= rows[i].Auteur %>
+                                </td>
+                                <td>
                                     <%= rows[i].DateParution %>
-                                        <%= rows[i].Etat %>
+                                </td>
+                                <td>
+                                    <%= rows[i].Etat %>
+                                </td>
+                            </tr>
 
-
-                    </li>
-
+                            <% } %>
+                    </ul>
                     <% } %>
-            </ul>
-            <% } %>
+            </tbody>
+        </table>
+
     </section>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
