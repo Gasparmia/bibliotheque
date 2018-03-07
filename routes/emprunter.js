@@ -76,6 +76,11 @@ router.post('/save', function(req, res, next) {
               });
             }
           );
+        } else {
+          res.render('emprunt/emprunt.ejs', {
+            err: 'Ouvrage non disponible',
+            result: null
+          });
         }
       }
     );
