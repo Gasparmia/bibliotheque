@@ -21,10 +21,18 @@
                 <input type="text" name="Titre" id="Titre">
                 <label for='Auteur'>Auteur</label>
                 <input type="text" name="Auteur" id="Auteur">
-                <label for='Etat'> Etat</label>
-                <input type="text" name="Etat" id="Etat">
 
                 <button type="submit" class="btn btn-info button">Ajouter</button>
+
+                <% if(locals.result){ %>
+                    <span>
+                        <%= locals.result%>
+                    </span>
+                    <% } else if (locals.err){ %>
+                        <span>
+                            <%= locals.err %>
+                        </span>
+                        <% } %>
             </form>
         </section>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

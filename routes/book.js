@@ -6,13 +6,21 @@ router.post('/add', function(req, res, next) {
     ISBN: req.body.ISBN,
     Titre: req.body.Titre,
     Auteur: req.body.Auteur,
-    DateParution: new Date(),
-    Etat: req.body.Etat
+    DateParution: new Date()
   };
   req.getConnection(function(error, conn) {
     conn.query('INSERT INTO Document SET ?', data, function(err, result) {
-      if (err) console.error(err);
-      res.send('insertion reussie');
+      if (err) {
+        res.render('books/createb.ejs', {
+          err: "Erreur dans l'ajout",
+          result: null
+        });
+      } else {
+        res.render('books/createb.ejs', {
+          err: null,
+          result: 'insertion reussie'
+        });
+      }
     });
   });
 });
@@ -44,11 +52,17 @@ router.post('/update', function(req, res, next) {
       'update DOCUMENT SET ? WHERE ISBN = ?',
       [dataToUpdate, data.ISBN],
       function(err, rows) {
-        if (err) throw pwderr;
-        console.log(rows);
-        if (rows.affectedRows != 0) {
-          res.send(rows.changedRows + 'tuples modifies');
-        } else res.send('problème de modification');
+        if (err) {
+          res.render('books/updateb.ejs', {
+            err: 'Erreur dans la modification',
+            result: null
+          });
+        } else {
+          res.render('books/updateb.ejs', {
+            err: null,
+            result: 'modification reussie'
+          });
+        }
       }
     );
   });
