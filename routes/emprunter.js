@@ -89,11 +89,8 @@ router.get('/return', function(req, res, next) {
 
 function sanction(EmprunteurId, NbSanction, conn) {
   // Sanction
-  var DateFinSanction = new Date();
-  DateFinSanction.setDate(DateFinSanction.getDate() + NbSanction); ///
   var updates = {
-    DateDebSanction: new Date(),
-    DateFinSanction: DateFinSanction
+    DateDebSanction: new Date()
   };
 
   conn.query(
