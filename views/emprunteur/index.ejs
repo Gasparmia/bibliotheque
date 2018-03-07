@@ -56,20 +56,40 @@
         </a>
 
         <h1>Liste des emprunteurs</h1>
-        <% if(locals.rows && locals.rows.length){ %>
-            <ul>
-                <% for(i =0; i < rows.length; i++){ %>
-                    <li>
-                        <%= rows[i].Nom %>
-                            <%= rows[i].Prenom %>
-                                <%= rows[i].Auteur %>
-                    </li>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Début de Sanction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(locals.rows && locals.rows.length){ %>
+                    <ul>
+                        <% for(i =0; i < rows.length; i++){ %>
+                            <tr>
+                                <th scope="row">
+                                    <%= rows[i].ID %>
+                                </th>
+                                <td>
+                                    <%= rows[i].Nom %>
+                                </td>
+                                <td>
+                                    <%= rows[i].Prenom %>
+                                </td>
+                                <td>
+                                    <%= rows[i].DateDebSanction %>
+                                </td>
+                            </tr>
 
-                    <% } %>
-            </ul>
-            <% } else { %>
-                <span>Aucun emprunteur disponible</span>
-                <% } %>
+                            <% } %>
+                    </ul>
+                    <% } else { %>
+                        <span>Aucun emprunteur disponible</span>
+                        <% } %>
+            </tbody>
     </section>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
